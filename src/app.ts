@@ -1,4 +1,5 @@
 import express, { Application } from "express"
+import cors from "cors"
 import routes from "./api/routes"
 import dbInit from "./db/init"
 
@@ -9,6 +10,13 @@ dbInit()
 
 const app: Application = express()
 
+const allowedOrigins = ["http://localhost:5173"]
+
+const corsOptions: cors.CorsOptions = {
+  origin: allowedOrigins,
+}
+
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
