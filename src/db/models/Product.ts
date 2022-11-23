@@ -17,7 +17,8 @@ interface ProductAttributes {
   alt: string
 }
 
-export interface ProductOutput extends Required<ProductAttributes> {}
+export interface ProductOutput
+  extends Required<Omit<ProductAttributes, "id">> {}
 
 class Product extends Model<ProductAttributes> implements ProductAttributes {
   public id!: number
@@ -41,6 +42,7 @@ Product.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
     },
     uuid: {
       type: DataTypes.CHAR,
@@ -49,6 +51,7 @@ Product.init(
     productTitle: {
       type: DataTypes.CHAR,
       allowNull: false,
+      field: "product_title",
     },
     brand: {
       type: DataTypes.CHAR,
@@ -69,6 +72,7 @@ Product.init(
     discountPercentage: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: "discount_percent",
     },
     rating: {
       type: DataTypes.INTEGER,
@@ -81,6 +85,7 @@ Product.init(
     imageUrl: {
       type: DataTypes.TEXT,
       allowNull: false,
+      field: "image_url",
     },
     alt: {
       type: DataTypes.CHAR,

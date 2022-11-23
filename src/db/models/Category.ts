@@ -24,6 +24,7 @@ Category.init(
     id: {
       field: "category_id",
       type: DataTypes.INTEGER,
+      allowNull: false,
       autoIncrement: true,
       primaryKey: true,
     },

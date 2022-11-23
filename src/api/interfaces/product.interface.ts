@@ -13,3 +13,10 @@ export interface IProduct {
   imageUrl: string
   alt: string
 }
+
+export interface IProductFilters {
+  types: string[]
+  colors: string[]
+}
+
+export type Product = Omit<IProduct, "id" | "categoryId">

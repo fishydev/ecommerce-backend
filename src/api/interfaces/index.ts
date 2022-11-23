@@ -1,4 +1,4 @@
-import { ICategory } from "./category.interface"
-import { IProduct } from "./product.interface"
+import { ICategory, CategoryOption } from "./category.interface"
+import { IProduct, Product, IProductFilters } from "./product.interface"
 
-export { ICategory, IProduct }
+export { ICategory, IProduct, CategoryOption, Product, IProductFilters }

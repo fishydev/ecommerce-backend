@@ -5,3 +5,5 @@ export interface ICategory {
   imageUrl: string
   alt: string
 }
+
+export type CategoryOption = Pick<ICategory, "uuid" | "type">

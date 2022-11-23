@@ -8,4 +8,9 @@ categoryRouter.get("/", async (req: Request, res: Response) => {
   return res.status(200).send(results)
 })
 
+categoryRouter.get("/option", async (req: Request, res: Response) => {
+  const results = await categoryController.getOptions()
+  return res.status(200).send(results)
+})
+
 export default categoryRouter

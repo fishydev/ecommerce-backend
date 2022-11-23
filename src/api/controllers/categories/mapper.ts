@@ -10,3 +10,12 @@ export const toCategory = (category: CategoryOutput): ICategory => {
     alt: category.alt,
   }
 }
+
+export const toCategoryOption = (
+  category: Pick<CategoryOutput, "uuid" | "type">
+) => {
+  return {
+    uuid: category.uuid,
+    type: category.type,
+  }
+}
