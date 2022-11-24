@@ -17,6 +17,8 @@ export interface IProduct {
 export interface IProductFilters {
   types: string[]
   colors: string[]
+  sort: "htl" | "lth"
+  query: string
 }
 
 export type Product = Omit<IProduct, "id" | "categoryId">

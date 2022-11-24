@@ -1,4 +1,5 @@
-import { Op } from "sequelize"
+import { Op, literal } from "sequelize"
+import { Fn } from "sequelize/types/utils"
 import { Product, Category } from "../models"
 import { ProductOutput } from "../models/Product"
 import { ProductFilters } from "./types"
@@ -6,12 +7,27 @@ import { ProductFilters } from "./types"
 export const getAll = async (
   filters?: ProductFilters
 ): Promise<ProductOutput[]> => {
-  console.log(`filters`)
-  console.log(filters)
+  const sortOption = (sort: "lth" | "htl") => {
+    return sort === "lth" ? "ASC" : "DESC"
+  }
+
   return Product.findAll({
     where: {
       ...(filters?.colors &&
         filters.colors.length > 0 && { color: { [Op.in]: filters.colors } }),
+      ...(filters?.query && {
+        productTitle: { [Op.substring]: filters.query },
+      }),
+    },
+    attributes: {
+      include: [
+        [
+          literal(
+            "Product.price - (Product.price * Product.discount_percent / 100)"
+          ),
+          "discountPrice",
+        ],
+      ],
     },
     include: [
       {
@@ -23,5 +39,8 @@ export const getAll = async (
         required: true,
       },
     ],
+    ...(filters?.sort && {
+      order: [["discountPrice", sortOption(filters.sort)]],
+    }),
   })
 }
