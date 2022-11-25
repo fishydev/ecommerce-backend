@@ -10,4 +10,13 @@ productRouter.post("/", async (req: Request, res: Response) => {
   return res.status(200).send(results)
 })
 
+productRouter.get("/:uuid", async (req: Request, res: Response) => {
+  const productId = req.params.uuid
+  const result = await productController.getByUuid(productId)
+  if (!result) {
+    return res.status(404).send("Product Not Found")
+  }
+  return res.status(200).send(result)
+})
+
 export default productRouter

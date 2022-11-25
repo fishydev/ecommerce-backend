@@ -44,3 +44,13 @@ export const getAll = async (
     }),
   })
 }
+
+export const getByUuid = async (
+  uuid: string
+): Promise<ProductOutput | null> => {
+  return Product.findOne({
+    where: {
+      uuid: uuid,
+    },
+  })
+}
