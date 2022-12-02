@@ -7,8 +7,14 @@ const userRouter = Router()
 
 userRouter.post("/", async (req: Request, res: Response) => {
   const payload = req.body as IUser
-  const result = await userController.create(payload)
-  return res.status(200).send(result)
+  try {
+    const result = await userController.create(payload)
+    return res.status(200).send(result)
+  } catch (error: any) {
+    if (error.code && error.message) {
+      return res.status(error.code).send(error.message)
+    }
+  }
 })
 
 userRouter.get("/:email", async (req: Request, res: Response) => {
