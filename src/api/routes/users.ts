@@ -9,7 +9,9 @@ userRouter.post("/", async (req: Request, res: Response) => {
   const payload = req.body as IUser
   try {
     const result = await userController.create(payload)
-    return res.status(200).send(result)
+    if (result) {
+      res.status(200).send("Account successfully created")
+    }
   } catch (error: any) {
     if (error.code && error.message) {
       return res.status(error.code).send(error.message)
