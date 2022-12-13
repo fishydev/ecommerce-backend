@@ -1,12 +1,12 @@
 import e, { Router, Request, Response } from "express"
 import * as userController from "../controllers/user"
-import { LoginDTO } from "../dto/user.dto"
+import { LoginDTO, CreateUserDTO } from "../dto/user.dto"
 import { IUser } from "../interfaces"
 
 const userRouter = Router()
 
 userRouter.post("/", async (req: Request, res: Response) => {
-  const payload = req.body as IUser
+  const payload = req.body as CreateUserDTO
   try {
     const result = await userController.create(payload)
     if (result) {

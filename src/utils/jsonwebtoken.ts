@@ -5,9 +5,17 @@ dotenv.config()
 
 const JWT_SECRET = process.env.JWT_SECRET as string
 
+type UserData = {
+  id: number
+  email: string
+  firstName: string
+  lastName: string
+}
+
 export const signToken = (payload: IUser) => {
   return jwt.sign(
     {
+      id: payload.id,
       email: payload.email,
       firstName: payload.firstName,
       lastName: payload.lastName,
@@ -21,4 +29,9 @@ export const signToken = (payload: IUser) => {
 
 export const verifyToken = (token: string) => {
   return jwt.verify(token, JWT_SECRET)
+}
+
+export const getUserDataFromAuthHeader = (authHeader: string) => {
+  const token = authHeader.replace("Bearer ", "")
+  return jwt.decode(token) as UserData
 }
