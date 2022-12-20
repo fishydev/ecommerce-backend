@@ -1,5 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize"
 import sequelizeConnection from "../config"
+import Product from "./Product"
+import User from "./User"
 
 interface CartAttributes {
   id: number
@@ -61,5 +63,22 @@ Cart.init(
     paranoid: true,
   }
 )
+
+Cart.belongsTo(User, {
+  foreignKey: {
+    allowNull: false,
+    field: "user_id",
+    name: "userId",
+  },
+})
+
+Cart.belongsTo(Product, {
+  foreignKey: {
+    allowNull: false,
+    field: "product_id",
+    name: "productId",
+  },
+  as: "product",
+})
 
 export default Cart
