@@ -17,8 +17,7 @@ interface ProductAttributes {
   alt: string
 }
 
-export interface ProductOutput
-  extends Required<Omit<ProductAttributes, "id">> {}
+export interface ProductOutput extends Required<ProductAttributes> {}
 
 class Product extends Model<ProductAttributes> implements ProductAttributes {
   public id!: number
