@@ -11,16 +11,26 @@ export interface CustomRequest extends Request {
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", "")
+    const token = req.header("authorization")?.replace("Bearer ", "")
 
     if (!token) {
-      throw new Error()
+      throw { code: 403, message: "Forbidden" }
+    }
+    jwt.verify(token, JWT_SECRET)
+
+    next()
+  } catch (err: any) {
+    if (err.code && err.message) {
+      res.status(err.code).send(err.message)
+    }
+    if (err.name === "TokenExpiredError") {
+      res.status(401).send("Session expired")
+    }
+    if (err.name === "JsonWebTokenError") {
+      res.status(400).send("Bad Request")
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET)
-    ;(req as CustomRequest).token = decoded
-    next()
-  } catch (err) {
-    res.status(401).send("Not Authorized")
+    console.log(err)
+    res.status(500).send(`Internal Server Error`)
   }
 }
