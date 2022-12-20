@@ -1,6 +1,9 @@
 // import { Op } from "sequelize"
-import { Cart } from "../models"
+import { fn, literal, Op } from "sequelize"
+import { CartItem } from "../../api/interfaces"
+import { Cart, Product } from "../models"
 import { CartInput, CartOutput } from "../models/Cart"
+import { SummaryItem, SummaryResult } from "./types"
 
 export const getAll = async (): Promise<CartOutput[]> => {
   return Cart.findAll({})
@@ -24,11 +27,26 @@ export const getAll = async (): Promise<CartOutput[]> => {
 //   })
 // }
 
-export const getByUserId = async (userId: number): Promise<CartOutput[]> => {
+export const getByUserId = async (userId: number): Promise<CartItem[]> => {
   const result = await Cart.findAll({
     where: {
       userId: userId,
+      deletedAt: {
+        [Op.is]: undefined,
+      },
+      boughtAt: {
+        [Op.is]: undefined,
+      },
     },
+    attributes: ["id", "amount", [literal("amount*Product.price"), "total"]],
+    include: [
+      {
+        model: Product,
+        required: true,
+        as: "product",
+        attributes: ["productTitle", "imageUrl", "price"],
+      },
+    ],
   })
 
   return result
@@ -48,6 +66,12 @@ export const addItem = async (payload: CartInput): Promise<boolean> => {
     where: {
       productId: payload.productId,
       userId: payload.userId,
+      deletedAt: {
+        [Op.is]: undefined,
+      },
+      boughtAt: {
+        [Op.is]: undefined,
+      },
     },
   })
 
@@ -58,18 +82,12 @@ export const addItem = async (payload: CartInput): Promise<boolean> => {
     })
     return updatedCartItem ? true : false
   } else {
-    const newCartItem = await Cart.create(payload)
-    return newCartItem ? true : false
+    return create(payload)
   }
 }
 
-export const removeItem = async (payload: CartInput): Promise<boolean> => {
-  const existingCartItem = await Cart.findOne({
-    where: {
-      productId: payload.productId,
-      userId: payload.userId,
-    },
-  })
+export const substractItem = async (cartItemId: number): Promise<boolean> => {
+  const existingCartItem = await Cart.findByPk(cartItemId)
 
   if (!existingCartItem) {
     throw { code: 404, message: "Cart item not found" }
@@ -79,19 +97,66 @@ export const removeItem = async (payload: CartInput): Promise<boolean> => {
     return await deleteItem(existingCartItem.id)
   } else {
     const updatedCartItem = await existingCartItem.update({
-      ...payload,
+      ...existingCartItem,
       amount: existingCartItem.amount - 1,
     })
     return updatedCartItem ? true : false
   }
 }
 
-export const deleteItem = async (id: number): Promise<boolean> => {
+export const deleteItem = async (cartItemId: number): Promise<boolean> => {
+  const toDeleteItem = await Cart.findByPk(cartItemId)
+
+  if (!toDeleteItem) {
+    throw { code: 404, message: "Cart item not found" }
+  }
+
   const deletedCartItem = await Cart.destroy({
     where: {
-      id: id,
+      id: cartItemId,
     },
   })
 
   return deletedCartItem ? true : false
+}
+
+export const getSummary = async (userId: number): Promise<SummaryResult> => {
+  const cartContent = (await Cart.findAll({
+    where: {
+      userId: userId,
+      boughtAt: {
+        [Op.is]: undefined,
+      },
+      deletedAt: {
+        [Op.is]: undefined,
+      },
+    },
+    attributes: ["amount"],
+    include: [
+      {
+        model: Product,
+        required: true,
+        as: "product",
+        attributes: ["productTitle", "imageUrl", "price"],
+      },
+    ],
+    limit: 3,
+  })) as any
+
+  const cartItemTotal = await Cart.count({
+    where: {
+      userId: userId,
+      boughtAt: {
+        [Op.is]: undefined,
+      },
+      deletedAt: {
+        [Op.is]: undefined,
+      },
+    },
+  })
+
+  return {
+    content: cartContent as SummaryItem[],
+    remainder: cartItemTotal > 3 ? cartItemTotal - 3 : 0,
+  }
 }

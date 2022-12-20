@@ -1,4 +1,5 @@
 import * as cartDal from "../../db/dal/cart"
+import { SummaryResult } from "../../db/dal/types"
 import { CartInput, CartOutput } from "../../db/models/Cart"
 
 export const getAll = (): Promise<CartOutput[]> => {
@@ -13,12 +14,16 @@ export const addItem = (payload: CartInput): Promise<boolean> => {
   return cartDal.addItem(payload)
 }
 
-export const removeItem = (payload: CartInput): Promise<boolean> => {
-  return cartDal.removeItem(payload)
+export const substractItem = (id: number): Promise<boolean> => {
+  return cartDal.substractItem(id)
 }
 
 export const deleteItem = (id: number): Promise<boolean> => {
   return cartDal.deleteItem(id)
+}
+
+export const getSummary = (userId: number): Promise<SummaryResult> => {
+  return cartDal.getSummary(userId)
 }
 
 // export const getOptions = (): Promise<

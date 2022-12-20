@@ -16,18 +16,21 @@ cartRouter.get("/", async (req: Request, res: Response) => {
   } catch (error: any) {
     if (error.code && error.message) {
       return res.status(error.code).send(error.message)
+    } else {
+      console.log(error)
     }
+
     return res.status(500).send(error)
   }
 })
 
-cartRouter.post("/add", async (req: Request, res: Response) => {
-  const itemData = req.body as AddCartItemData
-  const authHeader = req.headers["Authorization"] as string
+cartRouter.post("/:uuid", async (req: Request, res: Response) => {
+  const productUuid = req.params.uuid as string
+  const authHeader = req.headers["authorization"] as string
   const user = getUserDataFromAuthHeader(authHeader)
   const payload: AddCartItemDTO = {
     userId: user.id,
-    productId: itemData.amount,
+    productUuid: productUuid,
   }
   try {
     const result = await cartController.addItem(payload)
@@ -41,30 +44,27 @@ cartRouter.post("/add", async (req: Request, res: Response) => {
   }
 })
 
-cartRouter.post("/remove", async (req: Request, res: Response) => {
-  const itemData = req.body as AddCartItemData
-  const authHeader = req.headers["Authorization"] as string
-  const user = getUserDataFromAuthHeader(authHeader)
-  const payload: RemoveCartItemDTO = {
-    userId: user.id,
-    productId: itemData.amount,
-  }
-  try {
-    const result = await cartController.removeItem(payload)
-    if (result) {
-      return res.status(200).send("Item removed from cart")
-    }
-  } catch (error: any) {
-    if (error.code && error.message) {
-      return res.status(error.code).send(error.message)
+cartRouter.put(
+  "/substract/:cartItemId",
+  async (req: Request, res: Response) => {
+    const cartItemId = Number(req.params.cartItemId)
+    try {
+      const result = await cartController.substractItem(cartItemId)
+      if (result) {
+        return res.status(200).send("Item removed from cart")
+      }
+    } catch (error: any) {
+      if (error.code && error.message) {
+        return res.status(error.code).send(error.message)
+      }
     }
   }
-})
+)
 
-cartRouter.delete("/:id", async (req: Request, res: Response) => {
+cartRouter.delete("/:cartItemId", async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id)
-    const result = await cartController.deleteItem(id)
+    const cartItemId = Number(req.params.cartItemId)
+    const result = await cartController.deleteItem(cartItemId)
     if (result) {
       return res.status(200).send("Item deleted from cart")
     }
@@ -74,3 +74,23 @@ cartRouter.delete("/:id", async (req: Request, res: Response) => {
     }
   }
 })
+
+cartRouter.get("/summary", async (req: Request, res: Response) => {
+  try {
+    const token = req.headers["authorization"]
+    if (!token) throw { code: 403, message: "Forbidden" }
+    const userData = getUserDataFromAuthHeader(token)
+    const result = await cartController.getSummary(userData.id)
+    return res.status(200).send(result)
+  } catch (error: any) {
+    if (error.code && error.message) {
+      return res.status(error.code).send(error.message)
+    } else {
+      console.log(error)
+    }
+
+    return res.status(500).send(error)
+  }
+})
+
+export default cartRouter

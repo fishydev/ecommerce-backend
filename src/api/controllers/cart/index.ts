@@ -1,27 +1,42 @@
 import { getByEmail as getUserByEmail } from "../../../db/dal/user"
-import { CartOutput } from "../../../db/models/Cart"
+import { CartInput, CartOutput } from "../../../db/models/Cart"
 import { AddCartItemDTO, RemoveCartItemDTO } from "../../dto/cart.dto"
 import { CartItem } from "../../interfaces"
-import * as service from "../../services/CartService"
+import { SummaryResult } from "../../interfaces/cart.interface"
+import * as cartService from "../../services/CartService"
+import * as productService from "../../services/ProductService"
 
 export const getAll = async (): Promise<CartOutput[]> => {
-  return await service.getAll()
+  return await cartService.getAll()
 }
 
 export const getByUserId = async (userId: number): Promise<CartOutput[]> => {
-  return await service.getByUserId(userId)
+  return await cartService.getByUserId(userId)
 }
 
 export const addItem = async (payload: AddCartItemDTO): Promise<boolean> => {
-  return await service.addItem(payload)
+  const product = await productService.getByUuid(payload.productUuid)
+
+  if (!product) {
+    throw { code: 404, message: "Product not found" }
+  }
+
+  const addCartItemPayload: CartInput = {
+    productId: product.id,
+    userId: payload.userId,
+  }
+
+  return await cartService.addItem(addCartItemPayload)
 }
 
-export const removeItem = async (
-  payload: RemoveCartItemDTO
-): Promise<boolean> => {
-  return await service.removeItem(payload)
+export const substractItem = async (id: number): Promise<boolean> => {
+  return await cartService.substractItem(id)
 }
 
 export const deleteItem = async (id: number): Promise<boolean> => {
-  return await service.deleteItem(id)
+  return await cartService.deleteItem(id)
+}
+
+export const getSummary = async (userId: number): Promise<SummaryResult> => {
+  return await cartService.getSummary(userId)
 }

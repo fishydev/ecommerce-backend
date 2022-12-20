@@ -1,6 +1,6 @@
 export type AddCartItemDTO = {
   userId: number
-  productId: number
+  productUuid: string
 }
 
 export type RemoveCartItemDTO = AddCartItemDTO
