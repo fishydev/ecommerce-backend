@@ -1,12 +1,13 @@
 import * as cartDal from "../../db/dal/cart"
 import { SummaryResult } from "../../db/dal/types"
 import { CartInput, CartOutput } from "../../db/models/Cart"
+import { CartItem } from "../interfaces"
 
 export const getAll = (): Promise<CartOutput[]> => {
   return cartDal.getAll()
 }
 
-export const getByUserId = (userId: number): Promise<CartOutput[]> => {
+export const getByUserId = (userId: number): Promise<CartItem[]> => {
   return cartDal.getByUserId(userId)
 }
 

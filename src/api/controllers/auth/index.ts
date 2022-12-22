@@ -22,15 +22,13 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
   } catch (err: any) {
     if (err.code && err.message) {
       res.status(err.code).send(err.message)
-    }
-    if (err.name === "TokenExpiredError") {
+    } else if (err.name === "TokenExpiredError") {
       res.status(401).send("Session expired")
-    }
-    if (err.name === "JsonWebTokenError") {
+    } else if (err.name === "JsonWebTokenError") {
       res.status(400).send("Bad Request")
+    } else {
+      console.log(err)
+      res.status(500).send(`Internal Server Error`)
     }
-
-    console.log(err)
-    res.status(500).send(`Internal Server Error`)
   }
 }

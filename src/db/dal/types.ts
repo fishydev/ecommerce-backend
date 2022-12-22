@@ -7,23 +7,18 @@ export interface ProductFilters {
   query?: string
 }
 
-export interface SummaryItem {
+export interface CartItem {
   id: number
   amount: number
   product: {
     imageUrl: string
     productTitle: string
+    price: number
+    uuid: string
   }
 }
 
 export interface SummaryResult {
-  content: SummaryItem[]
+  content: CartItem[]
   remainder: number
-}
-
-export interface CartItem {
-  id: number
-  amount: number
-  total: number
-  product: Pick<ProductOutput, "productTitle" | "imageUrl" | "price">
 }

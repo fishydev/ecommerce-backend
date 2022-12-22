@@ -10,7 +10,7 @@ export const getAll = async (): Promise<CartOutput[]> => {
   return await cartService.getAll()
 }
 
-export const getByUserId = async (userId: number): Promise<CartOutput[]> => {
+export const getByUserId = async (userId: number): Promise<CartItem[]> => {
   return await cartService.getByUserId(userId)
 }
 

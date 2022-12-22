@@ -24,7 +24,7 @@ cartRouter.get("/", async (req: Request, res: Response) => {
   }
 })
 
-cartRouter.post("/:uuid", async (req: Request, res: Response) => {
+cartRouter.put("/add/:uuid", async (req: Request, res: Response) => {
   const productUuid = req.params.uuid as string
   const authHeader = req.headers["authorization"] as string
   const user = getUserDataFromAuthHeader(authHeader)
@@ -51,7 +51,7 @@ cartRouter.put(
     try {
       const result = await cartController.substractItem(cartItemId)
       if (result) {
-        return res.status(200).send("Item removed from cart")
+        return res.status(200).send("item removed from cart")
       }
     } catch (error: any) {
       if (error.code && error.message) {

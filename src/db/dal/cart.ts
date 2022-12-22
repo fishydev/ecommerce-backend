@@ -1,9 +1,8 @@
 // import { Op } from "sequelize"
 import { fn, literal, Op } from "sequelize"
-import { CartItem } from "../../api/interfaces"
 import { Cart, Product } from "../models"
 import { CartInput, CartOutput } from "../models/Cart"
-import { SummaryItem, SummaryResult } from "./types"
+import { CartItem, SummaryResult } from "./types"
 
 export const getAll = async (): Promise<CartOutput[]> => {
   return Cart.findAll({})
@@ -28,7 +27,7 @@ export const getAll = async (): Promise<CartOutput[]> => {
 // }
 
 export const getByUserId = async (userId: number): Promise<CartItem[]> => {
-  const result = await Cart.findAll({
+  const result = (await Cart.findAll({
     where: {
       userId: userId,
       deletedAt: {
@@ -44,12 +43,12 @@ export const getByUserId = async (userId: number): Promise<CartItem[]> => {
         model: Product,
         required: true,
         as: "product",
-        attributes: ["productTitle", "imageUrl", "price"],
+        attributes: ["productTitle", "imageUrl", "price", "uuid"],
       },
     ],
-  })
+  })) as any
 
-  return result
+  return result as CartItem[]
 }
 
 export const create = async (payload: CartInput): Promise<boolean> => {
@@ -94,7 +93,7 @@ export const substractItem = async (cartItemId: number): Promise<boolean> => {
   }
 
   if (existingCartItem.amount === 1) {
-    return await deleteItem(existingCartItem.id)
+    return deleteItem(existingCartItem.id)
   } else {
     const updatedCartItem = await existingCartItem.update({
       ...existingCartItem,
@@ -137,7 +136,7 @@ export const getSummary = async (userId: number): Promise<SummaryResult> => {
         model: Product,
         required: true,
         as: "product",
-        attributes: ["productTitle", "imageUrl", "price"],
+        attributes: ["productTitle", "imageUrl", "price", "uuid"],
       },
     ],
     limit: 3,
@@ -156,7 +155,7 @@ export const getSummary = async (userId: number): Promise<SummaryResult> => {
   })
 
   return {
-    content: cartContent as SummaryItem[],
+    content: cartContent as CartItem[],
     remainder: cartItemTotal > 3 ? cartItemTotal - 3 : 0,
   }
 }
