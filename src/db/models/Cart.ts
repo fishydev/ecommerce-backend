@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize"
 import sequelizeConnection from "../config"
+import Checkout from "./Checkout"
 import Product from "./Product"
 import User from "./User"
 
@@ -7,6 +8,7 @@ interface CartAttributes {
   id: number
   userId: number
   productId: number
+  checkoutId?: number
   amount: number
   boughtAt?: Date
   createdAt?: Date
@@ -21,6 +23,7 @@ class Cart extends Model<CartAttributes, CartInput> implements CartAttributes {
   public id!: number
   public userId!: number
   public productId!: number
+  public checkoutId!: number
   public amount!: number
 
   public readonly boughtAt!: Date
@@ -46,6 +49,11 @@ Cart.init(
       field: "product_id",
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    checkoutId: {
+      field: "checkout_id",
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
     },
     amount: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -79,6 +87,14 @@ Cart.belongsTo(Product, {
     name: "productId",
   },
   as: "product",
+})
+
+Cart.belongsTo(Checkout, {
+  foreignKey: {
+    field: "checkout_id",
+    allowNull: true,
+    name: "checkoutId",
+  },
 })
 
 export default Cart
