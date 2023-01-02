@@ -6,12 +6,11 @@ import User from "./User"
 interface CheckoutAttributes {
   id: number
   userId: number
-  productId: number
   firstName: string
   lastName: string
   email: string
   address: string
-  zipCode: number
+  zipCode: string
   city: string
   country: string
   total: number
@@ -29,12 +28,11 @@ class Checkout
 {
   public id!: number
   public userId!: number
-  public productId!: number
   public firstName!: string
   public lastName!: string
   public email!: string
   public address!: string
-  public zipCode!: number
+  public zipCode!: string
   public city!: string
   public country!: string
   public total!: number
@@ -55,11 +53,6 @@ Checkout.init(
     userId: {
       field: "user_id",
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-    },
-    productId: {
-      field: "product_id",
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
     firstName: {
@@ -117,15 +110,6 @@ Checkout.belongsTo(User, {
     field: "user_id",
     name: "userId",
   },
-})
-
-Checkout.belongsTo(Product, {
-  foreignKey: {
-    allowNull: false,
-    field: "product_id",
-    name: "productId",
-  },
-  as: "product",
 })
 
 export default Checkout

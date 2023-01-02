@@ -159,3 +159,28 @@ export const getSummary = async (userId: number): Promise<SummaryResult> => {
     remainder: cartItemTotal > 3 ? cartItemTotal - 3 : 0,
   }
 }
+
+export const checkoutCart = async (
+  userId: number,
+  checkoutId: number
+): Promise<boolean> => {
+  const result = await Cart.update(
+    {
+      checkoutId: checkoutId,
+      boughtAt: new Date(),
+    },
+    {
+      where: {
+        userId: userId,
+        boughtAt: {
+          [Op.is]: undefined,
+        },
+        deletedAt: {
+          [Op.is]: undefined,
+        },
+      },
+    }
+  )
+
+  return result ? true : false
+}
