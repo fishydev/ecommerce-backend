@@ -184,3 +184,29 @@ export const checkoutCart = async (
 
   return result ? true : false
 }
+
+export const getCheckoutCartItems = async (
+  checkoutId: number,
+  userId: number
+): Promise<CartItem[]> => {
+  const result = (await Cart.findAll({
+    where: {
+      checkoutId: checkoutId,
+      userId: userId,
+      boughtAt: {
+        [Op.not]: undefined,
+      },
+    },
+    attributes: ["id", "amount", [literal("amount*Product.price"), "total"]],
+    include: [
+      {
+        model: Product,
+        required: true,
+        as: "product",
+        attributes: ["productTitle", "imageUrl", "price", "uuid"],
+      },
+    ],
+  })) as any
+
+  return result as CartItem[]
+}

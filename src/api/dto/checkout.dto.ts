@@ -7,5 +7,4 @@ export type AddCheckoutDTO = {
   zipCode: string
   city: string
   country: string
-  total: number
 }

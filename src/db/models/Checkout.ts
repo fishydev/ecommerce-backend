@@ -13,7 +13,6 @@ interface CheckoutAttributes {
   zipCode: string
   city: string
   country: string
-  total: number
   createdAt?: Date
   updatedAt?: Date
   deletedAt?: Date
@@ -35,7 +34,6 @@ class Checkout
   public zipCode!: string
   public city!: string
   public country!: string
-  public total!: number
 
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
@@ -88,11 +86,6 @@ Checkout.init(
     country: {
       field: "country",
       type: DataTypes.CHAR,
-      allowNull: false,
-    },
-    total: {
-      field: "total",
-      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
   },

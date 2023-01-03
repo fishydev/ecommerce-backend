@@ -1,6 +1,8 @@
 import * as checkoutDal from "../../db/dal/checkout"
 import * as cartDal from "../../db/dal/cart"
 import { CheckoutOutput, CheckoutInput } from "../../db/models/Checkout"
+import { CartOutput } from "../../db/models/Cart"
+import { CartItem } from "../interfaces"
 
 export const getAll = async (): Promise<CheckoutOutput[]> => {
   return checkoutDal.getAll()
@@ -18,4 +20,13 @@ export const create = async (payload: CheckoutInput): Promise<boolean> => {
   await cartDal.checkoutCart(payload.userId, checkout.id)
 
   return checkout ? true : false
+}
+
+export const getCheckoutCartItems = async (
+  checkoutId: number,
+  userId: number
+): Promise<CartItem[]> => {
+  const result = await cartDal.getCheckoutCartItems(checkoutId, userId)
+
+  return result
 }

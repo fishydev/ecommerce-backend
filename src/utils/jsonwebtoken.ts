@@ -32,6 +32,9 @@ export const verifyToken = (token: string) => {
 }
 
 export const getUserDataFromAuthHeader = (authHeader: string) => {
+  if (!authHeader) {
+    throw { code: 403, message: "Unauthorized" }
+  }
   const token = authHeader.replace("Bearer ", "")
   return jwt.decode(token) as UserData
 }
