@@ -185,7 +185,7 @@ export const checkoutCart = async (
   return result ? true : false
 }
 
-export const getCheckoutCartItems = async (
+export const getByCheckoutId = async (
   checkoutId: number,
   userId: number
 ): Promise<CartItem[]> => {

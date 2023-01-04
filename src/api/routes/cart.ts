@@ -93,4 +93,22 @@ cartRouter.get("/summary", async (req: Request, res: Response) => {
   }
 })
 
+cartRouter.get("/checkout/:checkoutId", async (req: Request, res: Response) => {
+  try {
+    const checkoutId = Number(req.params.checkoutId)
+    const token = req.headers["authorization"]!
+    const userData = getUserDataFromAuthHeader(token)
+    const result = await cartController.getByCheckoutId(checkoutId, userData.id)
+    return res.status(200).send(result)
+  } catch (error: any) {
+    if (error.code && error.message) {
+      return res.status(error.code).send(error.message)
+    } else {
+      console.log(error)
+    }
+
+    return res.status(500).send(error)
+  }
+})
+
 export default cartRouter

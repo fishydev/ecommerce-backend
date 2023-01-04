@@ -40,3 +40,10 @@ export const deleteItem = async (id: number): Promise<boolean> => {
 export const getSummary = async (userId: number): Promise<SummaryResult> => {
   return await cartService.getSummary(userId)
 }
+
+export const getByCheckoutId = async (
+  checkoutId: number,
+  userId: number
+): Promise<CartItem[]> => {
+  return await cartService.getByCheckoutId(checkoutId, userId)
+}

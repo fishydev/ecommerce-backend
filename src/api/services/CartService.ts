@@ -32,3 +32,12 @@ export const getSummary = (userId: number): Promise<SummaryResult> => {
 // > => {
 //   return cartDal.getOptions()
 // }
+
+export const getByCheckoutId = async (
+  checkoutId: number,
+  userId: number
+): Promise<CartItem[]> => {
+  const result = await cartDal.getByCheckoutId(checkoutId, userId)
+
+  return result
+}

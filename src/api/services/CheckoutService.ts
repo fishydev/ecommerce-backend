@@ -21,12 +21,3 @@ export const create = async (payload: CheckoutInput): Promise<boolean> => {
 
   return checkout ? true : false
 }
-
-export const getCheckoutCartItems = async (
-  checkoutId: number,
-  userId: number
-): Promise<CartItem[]> => {
-  const result = await cartDal.getCheckoutCartItems(checkoutId, userId)
-
-  return result
-}
