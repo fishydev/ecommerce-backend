@@ -1,13 +1,16 @@
 import { DataTypes, Model, Optional } from "sequelize"
 import Category from "./Category"
 import sequelizeConnection from "../config"
+import Color from "./Color"
+import Brand from "./Brand"
+import Admin from "./Admin"
 
 interface ProductAttributes {
   id: number
+  colorId: number
+  brandId: number
   uuid: string
   productTitle: string
-  brand: string
-  color: string
   description: string
   price: number
   discountPercentage: number
@@ -15,16 +18,17 @@ interface ProductAttributes {
   reviews: number
   imageUrl: string
   alt: string
+  createdBy: number
 }
 
 export interface ProductOutput extends Required<ProductAttributes> {}
 
 class Product extends Model<ProductAttributes> implements ProductAttributes {
   public id!: number
+  public colorId!: number
+  public brandId!: number
   public uuid!: string
   public productTitle!: string
-  public brand!: string
-  public color!: string
   public description!: string
   public price!: number
   public discountPercentage!: number
@@ -32,16 +36,27 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
   public reviews!: number
   public imageUrl!: string
   public alt!: string
+  public createdBy!: number
 }
 
 Product.init(
   {
     id: {
       field: "product_id",
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
+    },
+    colorId: {
+      field: "color_id",
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
+    brandId: {
+      field: "brand_id",
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
     },
     uuid: {
       type: DataTypes.CHAR,
@@ -51,14 +66,6 @@ Product.init(
       type: DataTypes.CHAR,
       allowNull: false,
       field: "product_title",
-    },
-    brand: {
-      type: DataTypes.CHAR,
-      allowNull: false,
-    },
-    color: {
-      type: DataTypes.CHAR,
-      allowNull: false,
     },
     description: {
       type: DataTypes.TEXT,
@@ -90,6 +97,11 @@ Product.init(
       type: DataTypes.CHAR,
       allowNull: false,
     },
+    createdBy: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      field: "created_by",
+    },
   },
   {
     freezeTableName: true,
@@ -106,5 +118,29 @@ Product.belongsTo(Category, {
     allowNull: false,
     field: "category_id",
     name: "categoryId",
+  },
+})
+
+Product.belongsTo(Color, {
+  foreignKey: {
+    allowNull: false,
+    field: "color_id",
+    name: "colorId",
+  },
+})
+
+Product.belongsTo(Brand, {
+  foreignKey: {
+    allowNull: false,
+    field: "brand_id",
+    name: "brandId",
+  },
+})
+
+Product.belongsTo(Admin, {
+  foreignKey: {
+    allowNull: false,
+    field: "created_by",
+    name: "createdBy",
   },
 })

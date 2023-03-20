@@ -1,50 +1,38 @@
 import { DataTypes, Model, Optional } from "sequelize"
+import Category from "./Category"
 import sequelizeConnection from "../config"
 import Admin from "./Admin"
 
-interface CategoryAttributes {
+interface ColorAttributes {
   id: number
-  uuid: string
-  type: string
-  imageUrl: string
-  alt: string
+  name: string
+  hex: string
   createdBy: number
 }
 
-export interface CategoryOutput extends Required<CategoryAttributes> {}
+export interface ColorOutput extends Required<ColorAttributes> {}
 
-class Category extends Model<CategoryAttributes> implements CategoryAttributes {
+class Color extends Model<ColorAttributes> implements ColorAttributes {
   public id!: number
-  public uuid!: string
-  public type!: string
-  public imageUrl!: string
-  public alt!: string
+  public name!: string
+  public hex!: string
   public createdBy!: number
 }
 
-Category.init(
+Color.init(
   {
     id: {
-      field: "category_id",
-      type: DataTypes.INTEGER,
+      field: "color_id",
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
     },
-    uuid: {
+    name: {
       type: DataTypes.CHAR,
       allowNull: false,
     },
-    type: {
-      type: DataTypes.CHAR,
-      allowNull: false,
-    },
-    imageUrl: {
-      field: "image_url",
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    alt: {
+    hex: {
       type: DataTypes.CHAR,
       allowNull: false,
     },
@@ -62,7 +50,7 @@ Category.init(
   }
 )
 
-Category.belongsTo(Admin, {
+Color.belongsTo(Admin, {
   foreignKey: {
     allowNull: false,
     field: "created_by",
@@ -70,4 +58,4 @@ Category.belongsTo(Admin, {
   },
 })
 
-export default Category
+export default Color

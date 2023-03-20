@@ -1,52 +1,46 @@
 import { DataTypes, Model, Optional } from "sequelize"
+import Category from "./Category"
 import sequelizeConnection from "../config"
 import Admin from "./Admin"
 
-interface CategoryAttributes {
+interface BrandAttributes {
   id: number
-  uuid: string
-  type: string
-  imageUrl: string
-  alt: string
+  name: string
+  url: string
+  description: string
   createdBy: number
 }
 
-export interface CategoryOutput extends Required<CategoryAttributes> {}
+export interface BrandOutput extends Required<BrandAttributes> {}
 
-class Category extends Model<CategoryAttributes> implements CategoryAttributes {
+class Brand extends Model<BrandAttributes> implements BrandAttributes {
   public id!: number
-  public uuid!: string
-  public type!: string
-  public imageUrl!: string
-  public alt!: string
+  public name!: string
+  public url!: string
+  public description!: string
   public createdBy!: number
 }
 
-Category.init(
+Brand.init(
   {
     id: {
-      field: "category_id",
-      type: DataTypes.INTEGER,
+      field: "brand_id",
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
     },
-    uuid: {
+    name: {
       type: DataTypes.CHAR,
       allowNull: false,
     },
-    type: {
+    url: {
       type: DataTypes.CHAR,
       allowNull: false,
     },
-    imageUrl: {
-      field: "image_url",
+    description: {
       type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    alt: {
-      type: DataTypes.CHAR,
-      allowNull: false,
+      allowNull: true,
     },
     createdBy: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -62,7 +56,7 @@ Category.init(
   }
 )
 
-Category.belongsTo(Admin, {
+Brand.belongsTo(Admin, {
   foreignKey: {
     allowNull: false,
     field: "created_by",
@@ -70,4 +64,4 @@ Category.belongsTo(Admin, {
   },
 })
 
-export default Category
+export default Brand

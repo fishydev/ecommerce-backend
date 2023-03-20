@@ -5,8 +5,8 @@ export const toProduct = (product: ProductOutput): Product => {
   return {
     uuid: product.uuid,
     productTitle: product.productTitle,
-    brand: product.brand,
-    color: product.color,
+    brandId: product.brandId,
+    colorId: product.colorId,
     description: product.description,
     price: product.price,
     discountPercentage: product.discountPercentage,

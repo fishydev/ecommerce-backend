@@ -3,8 +3,8 @@ export interface IProduct {
   categoryId: number
   uuid: string
   productTitle: string
-  brand: string
-  color: string
+  brandId: number
+  colorId: number
   description: string
   price: number
   discountPercentage: number
