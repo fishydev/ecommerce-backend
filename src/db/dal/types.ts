@@ -1,10 +1,18 @@
 import { ProductOutput } from "../models/Product"
+import { ColorOutput } from "../models/Color"
+import { BrandOutput } from "../models/Brand"
 
 export interface ProductFilters {
   types?: string[]
-  colors?: string[]
+  colors?: number[]
   sort?: "htl" | "lth"
   query?: string
+}
+
+export type TProductListItem = Omit<ProductOutput, "createdBy"> & {
+  discountPrice: number
+  Color: Pick<ColorOutput, "name" | "hex">
+  Brand: Pick<BrandOutput, "name">
 }
 
 export interface CartItem {

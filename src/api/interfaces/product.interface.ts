@@ -16,7 +16,7 @@ export interface IProduct {
 
 export interface IProductFilters {
   types: string[]
-  colors: string[]
+  colors: number[]
   sort: "htl" | "lth"
   query: string
 }
