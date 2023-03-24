@@ -2,11 +2,11 @@ import { Op, literal } from "sequelize"
 import { Fn } from "sequelize/types/utils"
 import { Product, Category, Color, Brand } from "../models"
 import { ProductOutput } from "../models/Product"
-import { ProductFilters, TProductListItem } from "./types"
+import { ProductFilters, TProductItem } from "./types"
 
 export const getAll = async (
   filters?: ProductFilters
-): Promise<TProductListItem[]> => {
+): Promise<TProductItem[]> => {
   const sortOption = (sort: "lth" | "htl") => {
     return sort === "lth" ? "ASC" : "DESC"
   }
@@ -55,12 +55,10 @@ export const getAll = async (
       order: [["discountPrice", sortOption(filters.sort)]],
     }),
   })
-  return res as TProductListItem[]
+  return res as TProductItem[]
 }
 
-export const getByUuid = async (
-  uuid: string
-): Promise<TProductListItem | null> => {
+export const getByUuid = async (uuid: string): Promise<TProductItem | null> => {
   const res: any = Product.findOne({
     where: {
       uuid: uuid,
@@ -78,5 +76,5 @@ export const getByUuid = async (
       },
     ],
   })
-  return res as TProductListItem
+  return res as TProductItem
 }

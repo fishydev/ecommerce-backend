@@ -9,7 +9,7 @@ export interface ProductFilters {
   query?: string
 }
 
-export type TProductListItem = Omit<ProductOutput, "createdBy"> & {
+export type TProductItem = Omit<ProductOutput, "createdBy"> & {
   discountPrice: number
   Color: Pick<ColorOutput, "name" | "hex">
   Brand: Pick<BrandOutput, "name">
