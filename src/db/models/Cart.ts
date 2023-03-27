@@ -87,6 +87,7 @@ Cart.belongsTo(Product, {
     name: "productId",
   },
   as: "product",
+  constraints: false,
 })
 
 Cart.belongsTo(Checkout, {

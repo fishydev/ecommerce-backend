@@ -18,8 +18,8 @@ const dbInit = () =>
     Brand.sync(),
     Color.sync(),
     Product.sync(),
-    User.sync(),
     Cart.sync(),
+    User.sync(),
     Checkout.sync(),
   ])
 
