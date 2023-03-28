@@ -1,12 +1,15 @@
-import { Product } from "../../interfaces"
 import { ProductOutput } from "../../../db/models/Product"
+import { TProductItem } from "../../../db/dal/types"
+import { IProduct } from "../../interfaces"
 
-export const toProduct = (product: ProductOutput): Product => {
+export const toProduct = (product: TProductItem): IProduct => {
   return {
+    id: product.id,
     uuid: product.uuid,
     productTitle: product.productTitle,
-    brandId: product.brandId,
-    colorId: product.colorId,
+    category: product.Category,
+    brand: product.Brand,
+    color: product.Color,
     description: product.description,
     price: product.price,
     discountPercentage: product.discountPercentage,

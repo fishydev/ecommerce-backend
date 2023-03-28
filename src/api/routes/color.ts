@@ -15,4 +15,16 @@ colorRouter.get(
   }
 )
 
+colorRouter.get(
+  "/option",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const results = await colorController.getColorOptions()
+      return res.status(200).send(results)
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
 export default colorRouter

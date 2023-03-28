@@ -4,3 +4,9 @@ export interface IColor {
   hex: string
   createdBy: number
 }
+
+export interface IColorOption {
+  id: number
+  name: string
+  hex: string
+}

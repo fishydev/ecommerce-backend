@@ -1,6 +1,7 @@
 import { ProductOutput } from "../models/Product"
 import { ColorOutput } from "../models/Color"
 import { BrandOutput } from "../models/Brand"
+import { CategoryOutput } from "../models/Category"
 
 export interface ProductFilters {
   types?: string[]
@@ -9,8 +10,12 @@ export interface ProductFilters {
   query?: string
 }
 
-export type TProductItem = Omit<ProductOutput, "createdBy"> & {
+export type TProductItem = Omit<
+  ProductOutput,
+  "createdBy" | "colorId" | "brandId"
+> & {
   discountPrice: number
+  Category: Pick<CategoryOutput, "type">
   Color: Pick<ColorOutput, "name" | "hex">
   Brand: Pick<BrandOutput, "name">
 }

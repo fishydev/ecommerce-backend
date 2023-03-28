@@ -1,7 +1,5 @@
 import { Op, literal } from "sequelize"
-import { Fn } from "sequelize/types/utils"
 import { Product, Category, Color, Brand } from "../models"
-import { ProductOutput } from "../models/Product"
 import { ProductFilters, TProductItem } from "./types"
 
 export const getAll = async (

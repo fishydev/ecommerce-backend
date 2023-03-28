@@ -1,10 +1,14 @@
+import { IBrand } from "./brand.interface"
+import { ICategory } from "./category.interface"
+import { IColor } from "./color.interface"
+
 export interface IProduct {
   id: number
-  categoryId: number
   uuid: string
   productTitle: string
-  brandId: number
-  colorId: number
+  category: Pick<ICategory, "type">
+  brand: Pick<IBrand, "name">
+  color: Pick<IColor, "name" | "hex">
   description: string
   price: number
   discountPercentage: number
@@ -20,5 +24,3 @@ export interface IProductFilters {
   sort: "htl" | "lth"
   query: string
 }
-
-export type Product = Omit<IProduct, "id" | "categoryId">

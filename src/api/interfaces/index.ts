@@ -1,5 +1,5 @@
 import { ICategory, CategoryOption } from "./category.interface"
-import { IProduct, Product, IProductFilters } from "./product.interface"
+import { IProduct, IProductFilters } from "./product.interface"
 import { IColor } from "./color.interface"
 import { IBrand } from "./brand.interface"
 import { IUser } from "./user.interface"
@@ -9,7 +9,6 @@ export {
   ICategory,
   IProduct,
   CategoryOption,
-  Product,
   IProductFilters,
   IUser,
   AddCartItemData,
