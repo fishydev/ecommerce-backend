@@ -1,4 +1,4 @@
-import { ICategory, CategoryOption } from "./category.interface"
+import { ICategory, TCategoryOption } from "./category.interface"
 import { IProduct, IProductFilters } from "./product.interface"
 import { IColor } from "./color.interface"
 import { IBrand } from "./brand.interface"
@@ -8,7 +8,7 @@ import { AddCartItemData, CartItem } from "./cart.interface"
 export {
   ICategory,
   IProduct,
-  CategoryOption,
+  TCategoryOption,
   IProductFilters,
   IUser,
   AddCartItemData,

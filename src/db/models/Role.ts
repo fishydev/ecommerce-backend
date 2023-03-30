@@ -1,30 +1,27 @@
-import { DataTypes, Model, Optional } from "sequelize"
-import Category from "./Category"
+import { DataTypes, Model } from "sequelize"
 import sequelizeConnection from "../config"
 import Admin from "./Admin"
 
-interface BrandAttributes {
+interface RoleAttributes {
   id: number
   name: string
-  url: string
-  description: string
+  privilege: "R" | "W"
   createdBy: number
 }
 
-export interface BrandOutput extends Required<BrandAttributes> {}
+export interface RoleOutput extends Required<RoleAttributes> {}
 
-class Brand extends Model<BrandAttributes> implements BrandAttributes {
+class Role extends Model<RoleAttributes> implements RoleAttributes {
   public id!: number
   public name!: string
-  public url!: string
-  public description!: string
+  public privilege!: "R" | "W"
   public createdBy!: number
 }
 
-Brand.init(
+Role.init(
   {
     id: {
-      field: "brand_id",
+      field: "role_id",
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true,
@@ -34,13 +31,9 @@ Brand.init(
       type: DataTypes.CHAR,
       allowNull: false,
     },
-    url: {
+    privilege: {
       type: DataTypes.CHAR,
       allowNull: false,
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true,
     },
     createdBy: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -56,4 +49,4 @@ Brand.init(
   }
 )
 
-export default Brand
+export default Role

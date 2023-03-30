@@ -72,30 +72,4 @@ Cart.init(
   }
 )
 
-Cart.belongsTo(User, {
-  foreignKey: {
-    allowNull: false,
-    field: "user_id",
-    name: "userId",
-  },
-})
-
-Cart.belongsTo(Product, {
-  foreignKey: {
-    allowNull: false,
-    field: "product_id",
-    name: "productId",
-  },
-  as: "product",
-  constraints: false,
-})
-
-Cart.belongsTo(Checkout, {
-  foreignKey: {
-    field: "checkout_id",
-    allowNull: true,
-    name: "checkoutId",
-  },
-})
-
 export default Cart

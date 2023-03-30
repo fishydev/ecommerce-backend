@@ -4,6 +4,9 @@ export interface ICategory {
   type: string
   imageUrl: string
   alt: string
+  createdBy: number
 }
 
-export type CategoryOption = Pick<ICategory, "uuid" | "type">
+export type TCategory = Omit<ICategory, "createdBy">
+
+export type TCategoryOption = Pick<ICategory, "id" | "uuid" | "type">

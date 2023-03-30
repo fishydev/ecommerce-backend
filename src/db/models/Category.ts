@@ -62,12 +62,4 @@ Category.init(
   }
 )
 
-Category.belongsTo(Admin, {
-  foreignKey: {
-    allowNull: false,
-    field: "created_by",
-    name: "createdBy",
-  },
-})
-
 export default Category

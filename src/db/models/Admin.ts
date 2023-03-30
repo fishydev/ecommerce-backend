@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize"
 import sequelizeConnection from "../config"
+import Role from "./Role"
 
 interface AdminAttributes {
   id: number

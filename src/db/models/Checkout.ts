@@ -97,12 +97,4 @@ Checkout.init(
   }
 )
 
-Checkout.belongsTo(User, {
-  foreignKey: {
-    allowNull: false,
-    field: "user_id",
-    name: "userId",
-  },
-})
-
 export default Checkout

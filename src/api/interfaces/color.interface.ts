@@ -5,8 +5,4 @@ export interface IColor {
   createdBy: number
 }
 
-export interface IColorOption {
-  id: number
-  name: string
-  hex: string
-}
+export type TColorOption = Omit<IColor, "createdBy">

@@ -112,35 +112,3 @@ Product.init(
 )
 
 export default Product
-
-Product.belongsTo(Category, {
-  foreignKey: {
-    allowNull: false,
-    field: "category_id",
-    name: "categoryId",
-  },
-})
-
-Product.belongsTo(Color, {
-  foreignKey: {
-    allowNull: false,
-    field: "color_id",
-    name: "colorId",
-  },
-})
-
-Product.belongsTo(Brand, {
-  foreignKey: {
-    allowNull: false,
-    field: "brand_id",
-    name: "brandId",
-  },
-})
-
-Product.belongsTo(Admin, {
-  foreignKey: {
-    allowNull: false,
-    field: "created_by",
-    name: "createdBy",
-  },
-})

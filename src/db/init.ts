@@ -1,26 +1,27 @@
 import {
-  Category,
-  Product,
+  Admin,
   User,
+  Product,
+  Category,
   Cart,
   Checkout,
   Brand,
   Color,
-  Admin,
+  Role,
 } from "./models"
 
 // const isDev = process.env.NODE_ENV
 
-const dbInit = () =>
-  Promise.all([
-    Admin.sync(),
-    Category.sync(),
-    Brand.sync(),
-    Color.sync(),
-    Product.sync(),
-    Cart.sync(),
-    User.sync(),
-    Checkout.sync(),
-  ])
+const dbInit = () => {
+  Admin.sync({ force: true })
+  Category.sync({ force: true })
+  Brand.sync({ force: true })
+  Color.sync({ force: true })
+  User.sync({ force: true })
+  Product.sync({ force: true })
+  Cart.sync({ force: true })
+  Checkout.sync({ force: true })
+  Role.sync({ force: true })
+}
 
 export default dbInit

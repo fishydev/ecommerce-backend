@@ -19,7 +19,7 @@ colorRouter.get(
   "/option",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const results = await colorController.getColorOptions()
+      const results = await colorController.getOptions()
       return res.status(200).send(results)
     } catch (err) {
       next(err)

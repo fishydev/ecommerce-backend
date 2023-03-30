@@ -19,7 +19,7 @@ categoryRouter.get(
   "/option",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const results = await categoryController.getOptions()
+      const results = await categoryController.getAll()
       return res.status(200).send(results)
     } catch (err) {
       next(err)

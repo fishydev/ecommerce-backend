@@ -15,4 +15,16 @@ brandRouter.get(
   }
 )
 
+brandRouter.get(
+  "/option",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const results = await brandController.getAll()
+      return res.status(200).send(results)
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
 export default brandRouter
